@@ -1,0 +1,72 @@
+.shadow{
+	-webkit-box-shadow:1px 1px 5px 1px black;
+	box-shadow:1px 1px 5px 1px black;
+	cursor:pointer;
+	display: block;
+	margin:0 auto;
+	-webkit-transition: all 0.2s linear;
+	-o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+    &:hover{
+            -webkit-box-shadow:2px 4px 15px 1px black !important;
+            box-shadow:2px 4px 15px 1px black !important;
+    }
+}
+.up {
+    &:hover{
+        -webkit-transform: perspective(1000px) scale(1.03);
+        transform: perspective(1000px) scale(1.03);
+        -webkit-transform:translate(0,-5px);
+        -ms-transform:translate(0,-5px);
+        transform:translate(0,-5px);
+        -webkit-transition: all 0.2s linear;
+        -o-transition: all 0.2s linear;
+        transition: all 0.2s linear;
+    }
+}
+
+.card-title,.card-text {
+    color:$white
+}
+
+.card {
+    border:none;
+    .btn {
+        padding: 0px 28px;
+        border-bottom: 92px;
+        &.right{
+            border-bottom-right-radius: 22px;
+        }
+        &.left {
+            border-bottom-left-radius: 22px;
+
+        }
+    }
+
+
+    .card-body-inner {
+    flex-direction:column
+    }
+}
+.product {
+    .card-body{
+    position:absolute;
+    top:0;
+    flex-wrap: wrap;    
+    bottom: 0;
+    left: 0;
+    right: 0;
+    }
+}
+
+.product-modal {
+    position: fixed;
+    right: 0;
+    width: 25%;
+    background: white;
+    height: 100%;
+    top: 0;
+    -webkit-box-shadow: 1px 1px 5px 1px black;
+    box-shadow: 1px 1px 5px 1px black;
+}
+

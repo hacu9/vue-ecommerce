@@ -1,28 +1,89 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <div v-if="loading" style="
+    background: rgba(0,0,0,1);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;">
+      <breeding-rhombus-spinner :animation-duration="2000" :size="65" color="#ff1d5e" />
+    </div>
+
+    <eheader></eheader>
+
+    <div class="container-fluid p-5 mx-auto">
+
+      <div class="row ">
+        <router-view class="col-sm-3 col-lg-2 col-4" name="nav"></router-view>
+
+        <div class="col-sm-9  col-lg-10 col-8">
+          <router-view></router-view>
+        </div>
+      </div>
+
+    </div>
+ <slide-x-right-transition :duration='800'>
+    <product-modal></product-modal>
+ </slide-x-right-transition>
+    <efooter></efooter>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import Eheader from './components/layout/Eheader.vue'
+  import Efooter from './components/layout/Efooter.vue'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  import ProductModal from './components/ProductModal.vue'
+
+
+  import { BreedingRhombusSpinner } from 'epic-spinners'
+
+  import { SlideXRightTransition } from 'vue2-transitions'
+
+
+
+
+  import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
+  import jquery from 'jquery/dist/jquery.min.js'
+  import popper from 'popper.js/dist/popper.min.js'
+
+
+  export default {
+    name: 'app',
+    components: {
+      Eheader,
+      Efooter,
+      BreedingRhombusSpinner,
+      ProductModal,
+      SlideXRightTransition
+    },
+    data() {
+      return {
+        data: {
+          cat: null
+        },
+        loading: true
+      }
+    },
+    created() {
+      this.$bus.$on('loaded', () => {
+        this.loading = false
+      })
+    },
+    mounted() {
+
+    },
   }
-}
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+  @import 'bootstrap/scss/bootstrap.scss';
+  @import './assets/styles/custom-boostrap.scss';
+  @import './assets/styles/styles.scss';
 </style>
