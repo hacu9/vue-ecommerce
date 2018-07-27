@@ -22,7 +22,7 @@
         <product class="col-sm-4 col-xs-12 col-lg-3 m-2 card shadow up p-0" 
         v-for="(product,n) in sorted" 
         :product="product" 
-        :key="product.id" v-if="filterBy(product.sublevel_id)" 
+        :key="product.id" v-if="filterBy(product)" 
         />
     </scale-transition>
     <!-- <button @click="limit++">+</button> -->
@@ -32,8 +32,7 @@
 <script>
     import Product from './Product.vue'
     import { ScaleTransition } from 'vue2-transitions'
-    import { orderBy } from 'lodash/orderBy'
-
+    import _  from 'lodash'
     export default {
         name: 'Products',
         components: {
@@ -42,14 +41,17 @@
         },
         data() {
             return {
-                data: {},
+                data: null,
                 limit: 6,
                 cat: null,
                 sortBy:null,
                 oPrice:null,
                 oAvaliable: null,
                 oQuantity:null,
-                sorted:[]
+                sorted:[],
+                priceRange:{},
+                avaliable:false,
+                stock:999999
             }
         },
         computed : {
@@ -97,10 +99,23 @@
               this.sorted =  _.orderBy(data, sortedData, order)
 
             },
-            filterBy(sublevel) {
-                if(this.cat) return sublevel == this.cat
+            filterBy(product) {
+                var flag = true
+                if(this.cat) {
+                    flag = product.sublevel_id == this.cat
+                } 
+
+                 if(!(product.price <= this.priceRange.max && product.price >= this.priceRange.min)) {
+                    flag = false
+                }
+                if(!product.available && this.avaliable){
+                    flag = false
+                }
+                if(product.quantity > this.stock){
+                    flag = false
+                }
                 
-                return true
+                return flag
             },
             sortProducts(by){
                 this.sortBy = true
@@ -120,28 +135,51 @@
                     }
                 }
                 this.productsOrdered()
+            },
+            parsetoNum(x){
+                if(typeof(x) == 'number') return
+               return Number(x.substring(1).replace(',','.'))
             }
         },
+        mounted() {
+             var _this = this
+
+             this.$bus.$on('filterPrice',(a) => {
+                 _this.priceRange = a
+            })
+
+            this.$bus.$on('filterAvaliable',(avaliable) => {
+                 _this.avaliable = avaliable
+            })
+
+            this.$bus.$on('filterStock',(stock) => {
+                 _this.stock = stock
+            })
+        },
         created() {
-        
             var _this = this
 
-            this.$bus.$on('filterCat', (a) => {
-                _this.cat = a
+            this.$bus.$on('filterCat', (c) => {
+                _this.cat = c
             })
+
+            
 
             fetch('/products.json')
                 .then((res) => res.json())
                 .then((json) => {
-
                     _this.data = json.products
                     _this.sorted = json.products.map((x) => {
-                        x.price = Number(x.price.substring(1).replace(',','.'))
+                        x.price = this.parsetoNum(x.price)
                         return x
                     })
-                })
 
-            
+                  var MaxMin = {max : _.maxBy(_this.data,'price').price,
+                                min : _.minBy(_this.data,'price').price,
+                                stock:_.maxBy(_this.data,'quantity').quantity}
+                     this.$bus.$emit('setUpMaxMin',MaxMin)
+
+                })
         }
     }
 </script>

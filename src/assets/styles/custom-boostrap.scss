@@ -18,7 +18,8 @@ $gray-lighter: #ededed;
 $gray-lightest: #fafafa;
 
 // Set brand colors
-$primary: $blue;
+$primary: #f58466;
+$secondary: #fef1ee;
 $success: $green;
 $info: $yellow;
 $warning: $orange;
@@ -54,5 +55,5 @@ $font-family-monospace: Menlo, Monaco, Consolas, 'Liberation Mono',
 $font-family-base: $font-family-sans-serif;
 
 // Set global options
-$enable-shadows: false;
+$enable-shadows: true;
 $enable-gradients: true;

@@ -19,8 +19,10 @@ import Checkout from './components/Checkout.vue'
        },
        {
            path: '/checkout',
-           component: Checkout,
-           name: 'Checkout'
+           components: {
+            fWidth: Checkout
+           } ,
+           name: 'Checkout',
        }
         // { path: '/bar',  component: Bar }
     

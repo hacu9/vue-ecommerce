@@ -1,6 +1,7 @@
 <template>
     <div  :class="depth >= 1 ? 'tree-view-child' : 'depth ' + depth  ">
-        <div class="tree-wrapper" @click="[showSublevel(),chooseCat(id)]"  >
+        <div class="tree-wrapper p-2" @click="[showSublevel(),chooseCat(id)]"  
+        :class="cat == id ? 'active' : ''">
             <font-awesome-icon v-if="nodes" 
             :icon="showChildren ? 'minus-circle' : 'plus-circle' " 
             pull="left"
@@ -8,12 +9,12 @@
 
             <p :style="indent" >{{label}} ({{id}}) </p>
         </div>
+
          <menu-item :key="node.id" :id="node.id" v-if="showChildren" 
             v-for="node in nodes" :label="node.name" 
             :nodes="node.sublevels" :depth="depth + 1"  
-            @chooseCat="chooseCat($event)"> 
-            <!-- Pasando el evento al padre para poder filtar -->
-            </menu-item>
+            @chooseCat="chooseCat($event)" :cat="cat"> 
+        </menu-item>
     </div>
 </template>
 
@@ -24,11 +25,13 @@
             'label',
             'nodes',
             'depth',
-            'id'
+            'id',
+            'cat'
         ],
         data() {
             return {
-                showChildren: false
+                showChildren: false,
+               
             }
         },
         methods: {
@@ -36,8 +39,6 @@
                 this.showChildren = !this.showChildren
             },
             chooseCat(node) {
-                // this.$emit('chooseCat', (node))
-                // this.$emit('filterCat',a)
                 this.$bus.$emit('filterCat',node)
             },
         },

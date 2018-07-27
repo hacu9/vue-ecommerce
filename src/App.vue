@@ -16,11 +16,13 @@
     </div>
 
     <eheader></eheader>
-
+     <router-view name="fWidth"></router-view>
     <div class="container-fluid p-5 mx-auto">
 
+      <!-- <slider></slider> -->
+
       <div class="row ">
-        <router-view class="col-sm-3 col-lg-2 col-4" name="nav"></router-view>
+        <router-view class="col-sm-3 col-lg-2 col-4 px-0 pt-4 bg-primary tree-view-wrapper" name="nav"></router-view>
 
         <div class="col-sm-9  col-lg-10 col-8">
           <router-view></router-view>
@@ -28,6 +30,7 @@
       </div>
 
     </div>
+
  <slide-x-right-transition :duration='800'>
     <product-modal></product-modal>
  </slide-x-right-transition>
@@ -40,6 +43,8 @@
   import Efooter from './components/layout/Efooter.vue'
 
   import ProductModal from './components/ProductModal.vue'
+
+
 
 
   import { BreedingRhombusSpinner } from 'epic-spinners'
@@ -83,7 +88,7 @@
 </script>
 
 <style lang="scss">
-  @import 'bootstrap/scss/bootstrap.scss';
   @import './assets/styles/custom-boostrap.scss';
+  @import 'bootstrap/scss/bootstrap.scss';
   @import './assets/styles/styles.scss';
 </style>

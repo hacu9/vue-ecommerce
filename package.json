@@ -16,6 +16,7 @@
     "jquery": "^3.3.1",
     "popper.js": "^1.14.3",
     "vue": "^2.5.16",
+    "vue-flux": "^1.0.0",
     "vue-router": "^3.0.1",
     "vue-slider-component": "^2.7.5",
     "vue-switches": "^2.0.1",
