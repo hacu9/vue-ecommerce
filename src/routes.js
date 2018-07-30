@@ -1,14 +1,13 @@
-import Emenu from './components/Emenu.vue'
-import Products from './components/Products.vue'
 import ProductModal from './components/ProductModal.vue'
-import Checkout from './components/Checkout.vue'
+import Checkout from './components/views/Checkout.vue'
+import Home from './components/views/Home.vue'
+import Store from './components/views/Store.vue'
+import Payment from './components/views/Payment.vue'
+
 
     const routes = [
         { path: '/', 
-        components: {
-            default: Products,
-            nav : Emenu
-        } ,
+        component: Home,
         name: 'home',
         children:[
             {
@@ -19,11 +18,26 @@ import Checkout from './components/Checkout.vue'
        },
        {
            path: '/checkout',
-           components: {
-            fWidth: Checkout
-           } ,
-           name: 'Checkout',
-       }
+           component: Checkout,
+           name: 'checkout',
+       },
+       {
+        path: '/store',
+        component: Store,
+        name: 'store',
+        children:[
+            {
+            path: '/product/:id', 
+            component: ProductModal,
+            name:'ProductModalStore'
+            }]
+        },
+        {
+            path: '/payment',
+            component: Payment,
+            name: 'payment',
+        },
+        { path: '*', redirect: '/' }
         // { path: '/bar',  component: Bar }
     
         // {

@@ -1,68 +1,63 @@
 <template>
-     <div class="">
-         <div v-if="data.categories" >
-        <menu-item 
-        class="tree-view-root "
-        v-for="node in data.categories" 
-        :key="node.id"
-        :id="node.id"
-      :label="node.name" 
-      :nodes="node.sublevels" 
-      :depth="0"
-      :cat="cat"
-      > 
-      
-      </menu-item>
-     </div>
-     
-    <div>
-     <div class="filter p-2 tree-view-root">
-         <h5>Filtros</h5>
-        <filters></filters>
-     </div>
-    </div>
+    <div class="">
+        <div class=" px-0 pt-4 bg-primary tree-view-wrapper text-white text-shadow">
+            <div>
+             
+                    <div v-if="categories" :key="1">
+                           <fade-transition group>
+                        <menu-item class="tree-view-root " v-for="node in categories" :key="node.id" :id="node.id" :label="node.name" :nodes="node.sublevels"
+                            :depth="0">
+                        </menu-item>
+                          </fade-transition>
+                    </div>
 
-     </div>
+                    <div class="filter p-2 tree-view-root" :key="2">
+                        <h5>Filtrar</h5>
+                        <!-- @click="showFilter = !showFilter" -->
+                        <filters v-show="showFilter"></filters>
+                    </div>
+
+                    <div class="order p-2 tree-view-root" :key="3">
+                        <h5>Ordenar</h5>
+                        <!-- @click="showOrder = !showOrder" -->
+                        <order v-show="showOrder"></order>
+                    </div>
+           
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <script>
-import MenuItem from './MenuItem.vue'
-
-import Filters from './Filters.vue'
-
-
-export default {
-  name: 'emenu',
-  components: {
-      MenuItem,
-      Filters
-  },
-  data() {
-      return {
-          data: {},
-          cat:null
-          }
-  },
-  methods: {
-    filterCat(a) {
+    import {
+        FadeTransition
+    } from 'vue2-transitions'
+    import MenuItem from './MenuItem.vue'
+    import Filters from './Filters.vue'
+    import Order from './Order.vue'
+    import {
+        mapState
+    } from 'vuex';
+    export default {
+        name: 'emenu',
+        components: {
+            MenuItem,
+            Filters,
+            Order,
+            FadeTransition
+        },
+        data() {
+            return {
+                showFilter: true,
+                showOrder: true
+            }
+        },
+        computed: {
+            ...mapState(['categories'])
+        },
     }
-  },
-  created() {
-      _this = this
-      this.$bus.$on('filterCat',(cat) => _this.cat = cat)
-
-      var _this = this
-    fetch('/categories.json')
-      .then((res) => res.json())
-      .then((json) => {
-         
-          _this.data = json
-      }) 
-  },
- 
-}
 </script>
 
 <style>
-
 </style>
