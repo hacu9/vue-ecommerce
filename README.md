@@ -17,6 +17,12 @@ Sin embargo he creado variados componentes a la par para asi ir implementando to
 
 #####  Este proyecto usa Vue, Vue-Router y Vuex 
 
+### To Do
+
+- [ ] Mejorar diseño
+- [ ] Implementar Testing
+
+
 ## Instalar dependencias
 ```
 npm install
